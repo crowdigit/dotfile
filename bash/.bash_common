@@ -1,0 +1,36 @@
+# vim: set ft=sh:
+#
+# this file defines environment variables loaded from both login shell and interactive non-login shell
+
+export XDG_CONFIG_HOME=$HOME/.config
+export EDITOR=nvim
+
+export GTK_IM_MODULE=xim
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+
+alias sl="sl | lolcat"
+alias mpc="mpc --host=${HOME}/.config/mpd/socket"
+
+source /usr/share/nvm/init-nvm.sh
+
+export PAGER=nvimpager
+export MANPAGER="nvim +Man!"
+export MANWIDTH=999
+
+set +H
+
+export GOPATH="${HOME}/go"
+export PATH="${PATH}:${HOME}/bin"
+export PATH="${PATH}:${GOPATH}/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+
+alias kimage="kitty +kitten icat"
+alias kclip="kitty +kitten clipboard"
+
+export PATH="${PATH}:${HOME}/script"
+export PATH="${HOME}/.ghcup/bin:${PATH}"
+
+export PATH="$PATH:${HOME}/.cargo/bin"
+
+export NEOVIDE_MULTIGRID=""
