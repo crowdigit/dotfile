@@ -42,6 +42,7 @@ call minpac#add('chrisbra/Colorizer')
 call minpac#add('neovim/nvim-lspconfig')
 call minpac#add('hrsh7th/nvim-compe')
 call minpac#add('nvim-treesitter/nvim-treesitter')
+call minpac#add('ray-x/go.nvim')
 " }}}
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -307,3 +308,9 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 " }}}
+
+" go.nvim
+lua << EOF
+require('go').setup()
+vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)
+EOF
