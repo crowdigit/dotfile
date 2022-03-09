@@ -110,7 +110,6 @@ let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
 let g:run_nostream_default = 1
-"let g:haskellFold_ShortText = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
 " }}}
