@@ -31,7 +31,6 @@ call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('vim-ctrlspace/vim-ctrlspace')
 call minpac#add('embark-theme/vim', { 'name': 'embark' })
-call minpac#add('fatih/vim-go')
 call minpac#add('ledesmablt/vim-run')
 call minpac#add('vimoutliner/vimoutliner')
 call minpac#add('sdiehl/vim-ormolu')
@@ -110,10 +109,6 @@ endif
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
-" vim-go
-let g:go_def_mapping_enabled = 0
-let g:go_updatetime = 300
-let g:go_doc_popup_window = 1
 let g:run_nostream_default = 1
 "let g:haskellFold_ShortText = 1
 " rust-lang/rust.vim
