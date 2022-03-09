@@ -42,7 +42,7 @@ call minpac#add('liuchengxu/graphviz.vim')
 call minpac#add('chrisbra/Colorizer')
 call minpac#add('neovim/nvim-lspconfig')
 call minpac#add('hrsh7th/nvim-compe')
-call minpac#add('nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' })
+call minpac#add('nvim-treesitter/nvim-treesitter')
 " }}}
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -285,5 +285,14 @@ nvim_lsp.tsserver.setup {
     }
 }
 
+
+" nvim-treesitter {{{
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = "maintained",
+    highlight = {
+        enable = true,
+    },
+}
 EOF
 " }}}
