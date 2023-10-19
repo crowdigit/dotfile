@@ -34,6 +34,7 @@ call minpac#add('junegunn/fzf.vim')
 call minpac#add('vim-ctrlspace/vim-ctrlspace')
 call minpac#add('chrisbra/Colorizer')
 call minpac#add('liuchengxu/graphviz.vim')
+call minpac#add('heavenshell/vim-jsdoc', { 'do': 'make install' })
 
 " debugger, need to choose one
 call minpac#add('sakhnik/nvim-gdb')
@@ -101,11 +102,6 @@ let g:lightline={
             \             [ 'readonly', 'filename', 'modified' ] ]
             \ },
             \ }
-"plasticboy/vim-markdown
-let g:vim_markdown_folding_disabled = 1
-" iamcco/markdown-preview.nvim
-let g:mkdp_markdown_css = '$HOME/.local/lib/github-markdown-css/github-markdown.css'
-let g:mkdp_auto_close = 0
 " vim-ctrlspace/vim-ctrlspace
 let g:CtrlSpaceDefaultMappingKey = "<C-space> "
 if executable("rg")
@@ -141,9 +137,10 @@ augroup Indentation
     autocmd FileType markdown   setlocal   expandtab tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType go         setlocal noexpandtab tabstop=8 shiftwidth=8
     autocmd FileType proto      setlocal noexpandtab tabstop=8 shiftwidth=8
-    autocmd FileType purescript setlocal   expandtab tabstop=2 shiftwidth=2
     autocmd FileType typescript setlocal   expandtab tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType javascript setlocal   expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType typescriptreact setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType javascriptreact setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 augroup end
 
 augroup TerminalStuff
@@ -164,7 +161,7 @@ augroup end
 
 augroup Formatter
     autocmd!
-    autocmd BufWritePre *.ts,*.js,*.mjs Neoformat prettierd
+    autocmd BufWritePre *.ts,*.js,*.mjs,*.jsx,*.tsx Neoformat prettierd
 augroup end
 " }}}
 
@@ -290,7 +287,7 @@ EOF
 " }}}
 
 " nvim-cmp {{{
-" set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,noselect
 lua <<EOF
   -- Set up nvim-cmp.
   local cmp = require'cmp'
@@ -335,6 +332,9 @@ lua <<EOF
       { name = 'buffer' },
     })
   })
+  cmp.setup.filetype('ctrlspace', {
+      enabled = false
+  })
 
   -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline({ '/', '?' }, {
@@ -346,6 +346,7 @@ lua <<EOF
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
+    enabled = false,
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
       { name = 'path' }
