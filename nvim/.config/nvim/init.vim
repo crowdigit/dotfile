@@ -91,7 +91,7 @@ set hidden
 set nocompatible
 set updatetime=300
 set shortmess+=c
-set completeopt=menuone,noselect
+" set completeopt=menu,menuone,noselect
 " }}}
 
 " bunch of lets {{{
@@ -287,7 +287,6 @@ EOF
 " }}}
 
 " nvim-cmp {{{
-set completeopt=menu,menuone,noselect
 lua <<EOF
   -- Set up nvim-cmp.
   local cmp = require'cmp'
@@ -336,21 +335,10 @@ lua <<EOF
       enabled = false
   })
 
-  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
-    enabled = false,
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
       { name = 'cmdline' }
     })
   })
