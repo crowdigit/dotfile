@@ -84,7 +84,7 @@ set showtabline=0
 set directory=$HOME/.config/nvim/backup
 set backupdir=$HOME/.config/nvim/backup
 set list
-set listchars=tab:>\ ,eol:$
+set listchars=tab:>\ ,eol:$,lead:.,trail:-
 set signcolumn=yes
 set termguicolors
 set guicursor+=a:Cursor/Cursor
@@ -226,7 +226,13 @@ EOF
 " trivial setup {{{
 lua << EOF
 require('nvim-autopairs').setup {}
-require('ibl').setup { scope = { highlight = { 'Folded' } } };
+require('ibl').setup {
+    scope = { highlight = { 'Folded' } },
+    indent = {
+        char = "│",
+        tab_char = "┆",
+    },
+};
 require('lsp_signature').setup { hint_prefix = '¯\\_(ツ)_/¯ ' }
 EOF
 " }}}
@@ -322,9 +328,6 @@ lua <<EOF
     }, {
       { name = 'buffer' },
     })
-  })
-  cmp.setup.filetype('ctrlspace', {
-      enabled = false
   })
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -488,6 +491,7 @@ require('lualine').setup {
     lualine_c = { '%f %y %m' },
     lualine_x = {},
   },
+  extensions = { 'ctrlspace' },
 }
 EOF
 " }}}
