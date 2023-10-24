@@ -36,6 +36,10 @@ call minpac#add('liuchengxu/graphviz.vim')
 call minpac#add('heavenshell/vim-jsdoc', { 'do': 'make install' })
 call minpac#add('nvim-lualine/lualine.nvim')
 call minpac#add('nvim-tree/nvim-web-devicons')
+call minpac#add('ojroques/nvim-osc52')
+call minpac#add('stevearc/aerial.nvim')
+call minpac#add('petertriho/nvim-scrollbar')
+call minpac#add('kevinhwang91/nvim-hlslens')
 
 " debugger, need to choose one
 call minpac#add('sakhnik/nvim-gdb')
@@ -58,7 +62,6 @@ call minpac#add('hrsh7th/vim-vsnip')
 
 call minpac#add('windwp/nvim-autopairs')
 call minpac#add('ray-x/lsp_signature.nvim')
-
 " }}}
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -78,7 +81,6 @@ set number
 set noshowmode
 set wildmenu
 set ignorecase
-set formatprg=par\ -w60
 set cursorline
 set showtabline=0
 set directory=$HOME/.config/nvim/backup
@@ -91,7 +93,7 @@ set guicursor+=a:Cursor/Cursor
 set hidden
 set nocompatible
 set updatetime=300
-set shortmess+=c
+set shortmess+=cS
 " set completeopt=menuone,noselect
 " }}}
 
@@ -118,6 +120,7 @@ syntax on
 
 " autogroups {{{
 augroup IndentHighlight
+    autocmd!
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#3D3F4A guibg=#50525C
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guifg=#50525C guibg=#3D3F4A
 augroup end
@@ -157,11 +160,11 @@ augroup Formatter
     autocmd!
     autocmd BufWritePre *.ts,*.js,*.mjs,*.jsx,*.tsx Neoformat prettierd
 augroup end
-" }}}
 
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+" }}}
 
 colorscheme embark
 
@@ -169,329 +172,28 @@ colorscheme embark
 nnoremap <F1> :ccl<CR>
 nnoremap <F2> :noh<CR>
 nnoremap <A-q> {v}!par -w60<CR>
-nnoremap * #
-nnoremap # *
-" }}}
-
 nnoremap / /\v
 inoremap <Leader>sh ¯\_(ツ)_/¯
 nnoremap <Leader>d :GoDoc<CR>
+" }}}
 
-set guifont=Hack:h12
-
-" nvim-lspconfig {{{
+" separated lua config {{{
 lua << EOF
--- Setup language servers.
-
--- Global mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
-  end,
-})
+require("crowdigit.nvim-lspconfig")
+require("crowdigit.trivial")
+require("crowdigit.treesitter")
+require("crowdigit.nvim-cmp")
+require("crowdigit.lualine")
+require("crowdigit.scrollbar")
+require("crowdigit.hlslens")
 EOF
 " }}}
 
-" trivial setup {{{
-lua << EOF
-require('nvim-autopairs').setup {}
-require('ibl').setup {
-    scope = { highlight = { 'Folded' } },
-    indent = {
-        char = "│",
-        tab_char = "┆",
-    },
-};
-require('lsp_signature').setup { hint_prefix = '¯\\_(ツ)_/¯ ' }
-EOF
-" }}}
-
-" nvim-treesitter {{{
-lua <<EOF
-
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all"
-  ensure_installed = "all",
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (for "all")
-  ignore_install = { "phpdoc" },
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    -- disable = { "c", "rust" },
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-    disable = function(lang, buf)
-        local max_filesize = 100 * 1024 -- 100 KB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
-    end,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-EOF
-" }}}
-
-" nvim-cmp {{{
-lua <<EOF
-  -- Set up nvim-cmp.
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      end,
-    },
-    window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'cmdline' }
-    })
-  })
-
-  -- If you want insert `(` after select function or method item
-  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-  cmp.event:on(
-    'confirm_done',
-    cmp_autopairs.on_confirm_done()
-  )
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-  -- Use a loop to conveniently call 'setup' on multiple servers and
-  -- map buffer local keybindings when the language server attaches
-  local nvim_lsp = require('lspconfig')
-  local servers = { "gopls", "rust_analyzer", "hls", "tsserver", "ccls" }
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      -- on_attach = on_attach,
-      -- flags = {
-        -- debounce_text_changes = 150
-      -- },
-      capabilities = capabilities
-    }
-  end
-EOF
-" }}}
-
-" lualine {{{
-lua << EOF
-local colors = {
-  red = '#ca1243',
-  grey = '#a0a1a7',
-  black = '#383a42',
-  white = '#f3f3f3',
-  light_green = '#83a598',
-  orange = '#fe8019',
-  green = '#8ec07c',
-}
-
-local theme = {
-  normal = {
-    a = { fg = colors.white, bg = colors.black },
-    b = { fg = colors.white, bg = colors.grey },
-    c = { fg = colors.black, bg = colors.white },
-    z = { fg = colors.white, bg = colors.black },
-  },
-  insert = { a = { fg = colors.black, bg = colors.light_green } },
-  visual = { a = { fg = colors.black, bg = colors.orange } },
-  replace = { a = { fg = colors.black, bg = colors.green } },
-}
-
-local embark = require('embark-lualine')
-
-local empty = require('lualine.component'):extend()
-function empty:draw(default_highlight)
-  self.status = ''
-  self.applied_separator = ''
-  self:apply_highlights(default_highlight)
-  self:apply_section_separators()
-  return self.status
-end
-
--- Put proper separators and gaps between components in sections
-local function process_sections(sections)
-  for name, section in pairs(sections) do
-    local left = name:sub(9, 10) < 'x'
-    for pos = 1, name ~= 'lualine_z' and #section or #section - 1 do
-      table.insert(section, pos * 2, { empty, color = { fg = embark.colors.black, bg = embark.colors.black } })
-    end
-    for id, comp in ipairs(section) do
-      if type(comp) ~= 'table' then
-        comp = { comp }
-        section[id] = comp
-      end
-      comp.separator = left and { right = '' } or { left = '' }
-    end
-  end
-  return sections
-end
-
-local function search_result()
-  if vim.v.hlsearch == 0 then
-    return ''
-  end
-  local last_search = vim.fn.getreg('/')
-  if not last_search or last_search == '' then
-    return ''
-  end
-  local searchcount = vim.fn.searchcount { maxcount = 9999 }
-  return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
-end
-
-local function modified()
-  if vim.bo.modified then
-    return '+'
-  elseif vim.bo.modifiable == false or vim.bo.readonly == true then
-    return '-'
-  end
-  return ''
-end
-
-require('lualine').setup {
-  options = {
-    theme = embark.theme,
-    component_separators = '',
-    section_separators = { left = '', right = '' },
-  },
-  sections = process_sections {
-    lualine_a = { 'mode' },
-    lualine_b = {
-      'branch',
-      'diff',
-      {
-        'diagnostics',
-        source = { 'nvim' },
-        sections = { 'error' },
-        diagnostics_color = { error = { bg = embark.colors.pink, fg = embark.colors.white } },
-      },
-      {
-        'diagnostics',
-        source = { 'nvim' },
-        sections = { 'warn' },
-        diagnostics_color = { warn = { bg = embark.colors.yellow, fg = embark.colors.white } },
-      },
-      { 'filename', file_status = false, path = 1 },
-      { modified, color = { bg = embark.colors.gray } },
-      {
-        '%w',
-        cond = function()
-          return vim.wo.previewwindow
-        end,
-      },
-      {
-        '%r',
-        cond = function()
-          return vim.bo.readonly
-        end,
-      },
-      {
-        '%q',
-        cond = function()
-          return vim.bo.buftype == 'quickfix'
-        end,
-      },
-    },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = { search_result, 'filetype' },
-    lualine_z = { '%l:%c', '%p%%/%L' },
-  },
-  inactive_sections = {
-    lualine_c = { '%f %y %m' },
-    lualine_x = {},
-  },
-  extensions = { 'ctrlspace' },
-}
-EOF
+" neovide {{{
+if exists("g:neovide")
+  set guifont=Hack:h14,Symbols\ Nerd\ Font\ Mono:h14
+  let g:neovide_scroll_animation_length = 0.08
+  let g:neovide_cursor_animation_length = 0.04
+  cd $HOME/project
+endif
 " }}}
