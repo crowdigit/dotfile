@@ -17,3 +17,5 @@ require('aerial').setup {
 }
 -- You probably also want to set a keymap to toggle aerial
 vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+
+vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)

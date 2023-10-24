@@ -153,7 +153,8 @@ augroup end
 
 augroup CtrlSpace
     autocmd!
-    nnoremap <silent><C-p> :CtrlSpace O<CR>
+    nnoremap <silent><C-p> :CtrlSpace o<CR>
+    nnoremap <silent><C-l> :CtrlSpace l<CR>
 augroup end
 
 augroup Formatter
