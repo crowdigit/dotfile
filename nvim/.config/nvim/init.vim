@@ -19,7 +19,6 @@ call minpac#add('leafgarland/typescript-vim')
 call minpac#add('rust-lang/rust.vim')
 
 " formatter
-call minpac#add('sbdchd/neoformat') " needs configure plugins for each language
 call minpac#add('godlygeek/tabular')
 
 call minpac#add('lukas-reineke/indent-blankline.nvim')
@@ -40,10 +39,11 @@ call minpac#add('ojroques/nvim-osc52')
 call minpac#add('stevearc/aerial.nvim')
 call minpac#add('petertriho/nvim-scrollbar')
 call minpac#add('kevinhwang91/nvim-hlslens')
+call minpac#add('lewis6991/gitsigns.nvim')
 
-" debugger, need to choose one
-call minpac#add('sakhnik/nvim-gdb')
-call minpac#add('puremourning/vimspector')
+" mason
+call minpac#add('williamboman/mason.nvim')
+call minpac#add('williamboman/mason-lspconfig.nvim')
 
 " lsp and treesitter
 call minpac#add('neovim/nvim-lspconfig')
@@ -59,14 +59,16 @@ call minpac#add('hrsh7th/cmp-cmdline')
 call minpac#add('hrsh7th/nvim-cmp')
 call minpac#add('hrsh7th/cmp-vsnip')
 call minpac#add('hrsh7th/vim-vsnip')
+" mason client
+call minpac#add('mfussenegger/nvim-lint')
+call minpac#add('mhartington/formatter.nvim')
+call minpac#add('mfussenegger/nvim-dap')
+call minpac#add('rcarriga/nvim-dap-ui')
+call minpac#add('leoluz/nvim-dap-go')
 
 call minpac#add('windwp/nvim-autopairs')
 call minpac#add('ray-x/lsp_signature.nvim')
 " }}}
-
-let g:vimspector_enable_mappings = 'HUMAN'
-packadd vimspector
-python3 import vim
 
 " bunch of sets {{{
 set encoding=utf-8
@@ -153,13 +155,8 @@ augroup end
 
 augroup CtrlSpace
     autocmd!
-    nnoremap <silent><C-p> :CtrlSpace o<CR>
+    nnoremap <silent><C-p> :CtrlSpace O<CR>
     nnoremap <silent><C-l> :CtrlSpace l<CR>
-augroup end
-
-augroup Formatter
-    autocmd!
-    autocmd BufWritePre *.ts,*.js,*.mjs,*.jsx,*.tsx Neoformat prettierd
 augroup end
 
 autocmd! FileType fzf
@@ -178,15 +175,45 @@ inoremap <Leader>sh ¯\_(ツ)_/¯
 nnoremap <Leader>d :GoDoc<CR>
 " }}}
 
-" separated lua config {{{
+" lua config {{{
 lua << EOF
+require("mason").setup()
+require("mason-lspconfig").setup()
 require("crowdigit.nvim-lspconfig")
+require("crowdigit.formatter")
 require("crowdigit.trivial")
 require("crowdigit.treesitter")
 require("crowdigit.nvim-cmp")
+require("crowdigit.lsp")
 require("crowdigit.lualine")
 require("crowdigit.scrollbar")
 require("crowdigit.hlslens")
+require("dapui").setup()
+require('dap-go').setup()
+
+vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
+vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
+vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
+vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
+vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
+  require('dap.ui.widgets').hover()
+end)
+vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+  require('dap.ui.widgets').preview()
+end)
+vim.keymap.set('n', '<Leader>df', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set('n', '<Leader>ds', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.scopes)
+end)
 EOF
 " }}}
 

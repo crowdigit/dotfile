@@ -3,7 +3,7 @@ require("scrollbar").setup({
     throttle_ms = 100,
     handle = {
         text = " ",
-        blend = 50, -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
+        blend = 70, -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
         highlight = "Comment",
         hide_if_all_visible = true, -- Hides handle if all lines are visible
     },

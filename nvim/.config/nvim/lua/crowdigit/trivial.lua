@@ -1,3 +1,4 @@
+require('go').setup()
 require('nvim-autopairs').setup {}
 require('ibl').setup {
     scope = { highlight = { 'Folded' } },
@@ -19,3 +20,4 @@ require('aerial').setup {
 vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
 
 vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+require('gitsigns').setup()
