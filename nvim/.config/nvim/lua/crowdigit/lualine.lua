@@ -102,9 +102,3 @@ require('lualine').setup {
   },
   extensions = { 'ctrlspace' },
 }
-require("scrollbar").setup {
-  excluded_filetypes = {
-      "ctrlspace",
-      "aerial",
-  },
-}

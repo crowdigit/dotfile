@@ -37,7 +37,6 @@ call minpac#add('nvim-lualine/lualine.nvim')
 call minpac#add('nvim-tree/nvim-web-devicons')
 call minpac#add('ojroques/nvim-osc52')
 call minpac#add('stevearc/aerial.nvim')
-call minpac#add('petertriho/nvim-scrollbar')
 call minpac#add('kevinhwang91/nvim-hlslens')
 call minpac#add('lewis6991/gitsigns.nvim')
 
@@ -68,6 +67,9 @@ call minpac#add('leoluz/nvim-dap-go')
 
 call minpac#add('windwp/nvim-autopairs')
 call minpac#add('ray-x/lsp_signature.nvim')
+
+call minpac#add('kovisoft/slimv')
+call minpac#add('HiPhish/rainbow-delimiters.nvim')
 " }}}
 
 " bunch of sets {{{
@@ -112,7 +114,7 @@ else
 endif
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
-let g:CtrlSpaceFileEngine = 'file_engine_darwin_arm'
+let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
 let g:run_nostream_default = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
@@ -186,7 +188,6 @@ require("crowdigit.treesitter")
 require("crowdigit.nvim-cmp")
 require("crowdigit.lsp")
 require("crowdigit.lualine")
-require("crowdigit.scrollbar")
 require("crowdigit.hlslens")
 require("dapui").setup()
 require('dap-go').setup()
@@ -214,6 +215,34 @@ vim.keymap.set('n', '<Leader>ds', function()
   local widgets = require('dap.ui.widgets')
   widgets.centered_float(widgets.scopes)
 end)
+EOF
+" }}}
+
+" {{{ rainbow delimiter
+lua << EOF
+local rainbow_delimiters = require('rainbow-delimiters')
+require('rainbow-delimiters.setup').setup {
+    strategy = {
+        [''] = rainbow_delimiters.strategy['global'],
+        vim = rainbow_delimiters.strategy['local'],
+    },
+    query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+    },
+    highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+    },
+    whitelist = {
+        'lisp',
+    }
+}
 EOF
 " }}}
 

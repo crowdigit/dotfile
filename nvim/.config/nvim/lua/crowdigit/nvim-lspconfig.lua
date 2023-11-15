@@ -42,10 +42,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('lint').linters_by_ft = {
   javascript = { 'eslint_d' },
   typescript = { 'eslint_d' },
+  go = { 'golangcilint' },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
+    pattern = "!*.go",
+    callback = function()
+        require("lint").try_lint()
+    end,
 })

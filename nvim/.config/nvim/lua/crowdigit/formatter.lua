@@ -28,7 +28,16 @@ require("formatter").setup {
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-      vim.cmd('FormatWrite')
-  end,
+    pattern = { "*.go" },
+    callback = function()
+        vim.cmd('GoImport')
+        vim.cmd('GoFmt')
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    pattern = { "!*.go" },
+    callback = function()
+        vim.cmd('Format')
+    end,
 })

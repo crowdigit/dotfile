@@ -1,4 +1,4 @@
-require("scrollbar.handlers.search").setup({ })
+require("hlslens").setup({ })
 
 local kopts = {noremap = true, silent = true}
 
