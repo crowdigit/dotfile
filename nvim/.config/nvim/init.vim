@@ -240,8 +240,8 @@ require('rainbow-delimiters.setup').setup {
         'RainbowDelimiterCyan',
     },
     whitelist = {
-        'lisp',
-    }
+        "commonlisp",
+    },
 }
 EOF
 " }}}

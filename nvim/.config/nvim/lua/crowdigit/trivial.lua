@@ -1,7 +1,13 @@
 require('go').setup()
-require('nvim-autopairs').setup {}
+require('nvim-autopairs').setup {
+    -- disable_filetype = { "TelescopePrompt", "spectre_panel", "lisp" }
+}
 require('ibl').setup {
-    scope = { highlight = { 'Folded' } },
+    scope = {
+        highlight = { 'Folded' },
+        show_start = false,
+        show_end = false,
+    },
     indent = {
         char = "│",
         tab_char = "┆",
