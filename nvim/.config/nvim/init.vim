@@ -120,8 +120,6 @@ let g:run_nostream_default = 1
 let g:rustfmt_autosave = 1
 " }}}
 
-syntax on
-
 " autogroups {{{
 augroup IndentHighlight
     autocmd!
