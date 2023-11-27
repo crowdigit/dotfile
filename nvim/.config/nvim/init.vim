@@ -118,6 +118,7 @@ let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
 let g:run_nostream_default = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
+let g:slimv_swank_cmd = '! kitty sbcl --load ~/.config/nvim/pack/minpac/start/slimv/slime/start-swank.lisp &'
 " }}}
 
 " autogroups {{{
