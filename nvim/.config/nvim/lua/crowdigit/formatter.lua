@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     pattern = { "*.go" },
     callback = function()
         vim.cmd('GoImport')
-        vim.cmd('GoFmt')
+        vim.cmd('Format')
     end,
 })
 
