@@ -1,6 +1,6 @@
 require('go').setup()
 require('nvim-autopairs').setup {
-    -- disable_filetype = { "TelescopePrompt", "spectre_panel", "lisp" }
+    disable_filetype = { "TelescopePrompt", "spectre_panel", "lisp" }
 }
 require('ibl').setup {
     scope = {
