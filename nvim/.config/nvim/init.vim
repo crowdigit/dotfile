@@ -98,6 +98,7 @@ set hidden
 set nocompatible
 set updatetime=300
 set shortmess+=cS
+set mouse=
 " set completeopt=menuone,noselect
 " }}}
 
