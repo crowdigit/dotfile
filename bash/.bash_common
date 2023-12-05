@@ -27,6 +27,7 @@ export PATH="${PATH}:${HOME}/.local/bin"
 
 alias kimage="kitty +kitten icat"
 alias kclip="kitty +kitten clipboard"
+alias ssh="kitty +kitten ssh"
 
 export PATH="${PATH}:${HOME}/script"
 export PATH="${HOME}/.ghcup/bin:${PATH}"
