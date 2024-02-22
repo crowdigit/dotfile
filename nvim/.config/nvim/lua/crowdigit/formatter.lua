@@ -9,10 +9,10 @@ require("formatter").setup {
     -- Formatter configurations for filetype "lua" go here
     -- and will be executed in order
     typescript = {
-        require("formatter.defaults.eslint_d"),
+        require("formatter.filetypes.typescript").denofmt,
     },
     javascript = {
-        require("formatter.defaults.eslint_d"),
+        require("formatter.filetypes.typescript").denofmt,
     },
     go = {
         require("formatter.filetypes.go").golines,
