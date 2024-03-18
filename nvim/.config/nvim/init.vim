@@ -171,6 +171,7 @@ colorscheme embark
 " key mappings {{{
 nnoremap <F1> :ccl<CR>
 nnoremap <F2> :noh<CR>
+nnoremap <F3> :w<CR>
 nnoremap <A-q> {v}!par -w60<CR>
 nnoremap / /\v
 inoremap <Leader>sh ¯\_(ツ)_/¯
