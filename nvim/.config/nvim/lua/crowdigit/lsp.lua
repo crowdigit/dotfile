@@ -1,4 +1,4 @@
-local servers = { "gopls", "rust_analyzer", "denols", "clangd", "cmake", "lua_ls", "vimls" }
+local servers = { "gopls", "rust_analyzer", "tsserver", "clangd", "cmake", "lua_ls", "vimls" }
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local lspconfig = require('lspconfig')
 

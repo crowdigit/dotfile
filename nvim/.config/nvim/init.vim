@@ -61,15 +61,16 @@ call minpac#add('hrsh7th/vim-vsnip')
 " mason client
 call minpac#add('mfussenegger/nvim-lint')
 call minpac#add('mhartington/formatter.nvim')
-call minpac#add('mfussenegger/nvim-dap')
-call minpac#add('rcarriga/nvim-dap-ui')
-call minpac#add('leoluz/nvim-dap-go')
+" call minpac#add('mfussenegger/nvim-dap')
+" call minpac#add('rcarriga/nvim-dap-ui')
+" call minpac#add('leoluz/nvim-dap-go')
 
 call minpac#add('windwp/nvim-autopairs')
 call minpac#add('ray-x/lsp_signature.nvim')
 
 call minpac#add('kovisoft/slimv')
 call minpac#add('HiPhish/rainbow-delimiters.nvim')
+call minpac#add('github/copilot.vim')
 " }}}
 
 " bunch of sets {{{
@@ -116,6 +117,16 @@ endif
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
+let g:CtrlSpaceProjectRootMarkers = [
+     \ ".git",
+     \ ".hg",
+     \ ".svn",
+     \ ".bzr",
+     \ "_darcs",
+     \ "CVS",
+     \ ".cs_workspaces",
+     \ "package.json",
+     \ ]
 let g:run_nostream_default = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
@@ -190,32 +201,6 @@ require("crowdigit.nvim-cmp")
 require("crowdigit.lsp")
 require("crowdigit.lualine")
 require("crowdigit.hlslens")
-require("dapui").setup()
-require('dap-go').setup()
-
-vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
-vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
-vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
-vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
-vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
-vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
-  require('dap.ui.widgets').hover()
-end)
-vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
-  require('dap.ui.widgets').preview()
-end)
-vim.keymap.set('n', '<Leader>df', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.frames)
-end)
-vim.keymap.set('n', '<Leader>ds', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.scopes)
-end)
 EOF
 " }}}
 

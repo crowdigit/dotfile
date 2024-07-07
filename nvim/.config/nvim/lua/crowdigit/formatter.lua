@@ -9,13 +9,16 @@ require("formatter").setup {
     -- Formatter configurations for filetype "lua" go here
     -- and will be executed in order
     typescript = {
-        require("formatter.filetypes.typescript").denofmt,
+        require("formatter.filetypes.typescript").eslint_d,
     },
     javascript = {
-        require("formatter.filetypes.typescript").denofmt,
+        require("formatter.filetypes.typescript").eslint_d,
+    },
+    json = {
+        require("formatter.filetypes.typescript").eslint_d,
     },
     go = {
-        require("formatter.filetypes.go").golines,
+        require("formatter.filetypes.go").gofumpt,
     },
     -- Use the special "*" filetype for defining formatter configurations on
     -- any filetype
@@ -30,7 +33,7 @@ require("formatter").setup {
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     callback = function(opts)
         if vim.bo.filetype == "go" then
-            vim.cmd('GoImport')
+            vim.cmd('GoImports')
         end
         vim.cmd('Format')
     end,
