@@ -117,7 +117,7 @@ else
 endif
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
-let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
+let g:CtrlSpaceFileEngine = 'file_engine_darwin_arm'
 let g:CtrlSpaceProjectRootMarkers = [
      \ ".git",
      \ ".hg",
