@@ -71,6 +71,10 @@ call minpac#add('ray-x/lsp_signature.nvim')
 call minpac#add('kovisoft/slimv')
 call minpac#add('HiPhish/rainbow-delimiters.nvim')
 call minpac#add('github/copilot.vim')
+
+call minpac#add('tpope/vim-salve')
+call minpac#add('tpope/vim-dispatch')
+call minpac#add('tpope/vim-fireplace')
 " }}}
 
 " bunch of sets {{{
@@ -131,6 +135,7 @@ let g:run_nostream_default = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
 let g:slimv_swank_cmd = '! kitty sbcl --load ~/.config/nvim/pack/minpac/start/slimv/slime/start-swank.lisp &'
+let g:slimv_disable_clojure = 1
 " }}}
 
 " autogroups {{{
@@ -175,6 +180,12 @@ augroup end
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+augroup Clojure
+    autocmd!
+    autocmd FileType clojure nnoremap ,e :Eval<CR>
+    autocmd FileType clojure nnoremap ,c :Console<CR>
+augroup end
 " }}}
 
 colorscheme embark
