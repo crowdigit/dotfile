@@ -1,3 +1,5 @@
+local util = require("formatter.util")
+
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 require("formatter").setup {
   -- Enable or disable logging
@@ -9,13 +11,41 @@ require("formatter").setup {
     -- Formatter configurations for filetype "lua" go here
     -- and will be executed in order
     typescript = {
-        require("formatter.filetypes.typescript").eslint_d,
+        function()
+            return {
+                exe = "eslint_d",
+                args = {
+                    "--config",
+                    "/home/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "--stdin",
+                    "--stdin-filename",
+                    util.escape_path(util.get_current_buffer_file_path()),
+                    "--fix-to-stdout",
+                },
+                stdin = true,
+                try_node_modules = true,
+            }
+        end,
     },
     javascript = {
-        require("formatter.filetypes.typescript").eslint_d,
+        function()
+            return {
+                exe = "eslint_d",
+                args = {
+                    "--config",
+                    "/home/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "--stdin",
+                    "--stdin-filename",
+                    util.escape_path(util.get_current_buffer_file_path()),
+                    "--fix-to-stdout",
+                },
+                stdin = true,
+                try_node_modules = true,
+            }
+        end,
     },
     json = {
-        require("formatter.filetypes.typescript").eslint_d,
+        require("formatter.defaults").eslint_d,
     },
     go = {
         require("formatter.filetypes.go").gofumpt,
