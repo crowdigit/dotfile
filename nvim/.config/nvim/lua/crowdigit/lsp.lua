@@ -17,7 +17,16 @@ require("mason-lspconfig").setup {
                 capabilities = capabilities,
                 settings = {
                     json = {
-                        schemas = require('schemastore').json.schemas(),
+                        schemas = require('schemastore').json.schemas {
+                            extra = {
+                                {
+                                    description = "Ad Shield Profile",
+                                    fileMatch = { "profile/*.json" },
+                                    name = "schema.json",
+                                    url = "file:///Users/asdf/project/github.com/ad-shield/adshield/src/shared/encoding/profile/schema.json",
+                                },
+                            },
+                        },
                         validate = { enable = true },
                     },
                 },

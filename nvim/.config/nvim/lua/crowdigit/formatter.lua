@@ -16,7 +16,7 @@ require("formatter").setup {
                 exe = "eslint_d",
                 args = {
                     "--config",
-                    "/home/asdf/.config/nvim/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
                     "--stdin",
                     "--stdin-filename",
                     util.escape_path(util.get_current_buffer_file_path()),
@@ -33,7 +33,7 @@ require("formatter").setup {
                 exe = "eslint_d",
                 args = {
                     "--config",
-                    "/home/asdf/.config/nvim/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
                     "--stdin",
                     "--stdin-filename",
                     util.escape_path(util.get_current_buffer_file_path()),

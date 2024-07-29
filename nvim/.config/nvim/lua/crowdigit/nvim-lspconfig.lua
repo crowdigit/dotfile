@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local eslint_d = require("lint").linters.eslint_d
 eslint_d.args = {
     '--config',
-    '/home/asdf/.config/nvim/.config/nvim/etc/typescript/eslint.config.mjs',
+    '/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs',
     '--format',
     'json',
     '--stdin',
