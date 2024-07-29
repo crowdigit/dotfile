@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
+      vim.cmd('Format')
     end, opts)
   end,
 })
@@ -41,11 +41,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- mason nvim-lint
 require('lint').linters_by_ft = {
   go = { 'golangcilint' },
-  typescript = { 'eslint' },
-  javascript = { 'eslint' },
+  typescript = { 'eslint_d' },
+  javascript = { 'eslint_d' },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    callback = function()
+        vim.cmd('FormatWriteLock');
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
     callback = function()
         require("lint").try_lint()
     end,

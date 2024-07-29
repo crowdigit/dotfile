@@ -64,6 +64,7 @@ call minpac#add('mhartington/formatter.nvim')
 " call minpac#add('mfussenegger/nvim-dap')
 " call minpac#add('rcarriga/nvim-dap-ui')
 " call minpac#add('leoluz/nvim-dap-go')
+call minpac#add('b0o/SchemaStore.nvim')
 
 call minpac#add('windwp/nvim-autopairs')
 call minpac#add('ray-x/lsp_signature.nvim')
@@ -153,6 +154,7 @@ augroup Indentation
     autocmd FileType javascript setlocal   expandtab tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType typescriptreact setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType javascriptreact setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType json setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 augroup end
 
 augroup TerminalStuff
