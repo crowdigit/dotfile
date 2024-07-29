@@ -39,6 +39,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- mason nvim-lint
+
+local eslint_d = require("lint").linters.eslint_d
+eslint_d.args = {
+    '--config',
+    '/home/asdf/.config/nvim/.config/nvim/etc/typescript/eslint.config.mjs',
+    '--format',
+    'json',
+    '--stdin',
+    '--stdin-filename',
+    function() return vim.api.nvim_buf_get_name(0) end,
+}
+
 require('lint').linters_by_ft = {
   go = { 'golangcilint' },
   typescript = { 'eslint_d' },

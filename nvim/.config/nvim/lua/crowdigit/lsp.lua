@@ -11,5 +11,17 @@ require("mason-lspconfig").setup {
                 capabilities = capabilities
             }
         end,
+        -- https://www.arthurkoziel.com/json-schemas-in-neovim/
+        ["jsonls"] = function ()
+            lspconfig["jsonls"].setup {
+                capabilities = capabilities,
+                settings = {
+                    json = {
+                        schemas = require('schemastore').json.schemas(),
+                        validate = { enable = true },
+                    },
+                },
+            }
+        end
     }
 }
