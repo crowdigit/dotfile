@@ -188,6 +188,12 @@ augroup Clojure
     autocmd FileType clojure nnoremap ,e :Eval<CR>
     autocmd FileType clojure nnoremap ,c :Console<CR>
 augroup end
+
+augroup LspBindings
+    autocmd!
+    nnoremap ,lr :LspRestart<CR>
+    nnoremap ,ll :lua require('lint').try_lint()<CR>
+augroup end
 " }}}
 
 colorscheme embark
