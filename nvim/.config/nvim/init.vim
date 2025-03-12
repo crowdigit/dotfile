@@ -61,8 +61,9 @@ call minpac#add('hrsh7th/vim-vsnip')
 " mason client
 call minpac#add('mfussenegger/nvim-lint')
 call minpac#add('mhartington/formatter.nvim')
-" call minpac#add('mfussenegger/nvim-dap')
-" call minpac#add('rcarriga/nvim-dap-ui')
+call minpac#add('mfussenegger/nvim-dap')
+call minpac#add('nvim-neotest/nvim-nio')
+call minpac#add('rcarriga/nvim-dap-ui')
 " call minpac#add('leoluz/nvim-dap-go')
 call minpac#add('b0o/SchemaStore.nvim')
 
@@ -132,6 +133,7 @@ let g:CtrlSpaceProjectRootMarkers = [
      \ ".cs_workspaces",
      \ "package.json",
      \ ]
+let g:CtrlSpaceWorkspaceFile = ''
 let g:run_nostream_default = 1
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
@@ -220,6 +222,7 @@ require("crowdigit.nvim-cmp")
 require("crowdigit.lsp")
 require("crowdigit.lualine")
 require("crowdigit.hlslens")
+require("crowdigit.dap")
 EOF
 " }}}
 

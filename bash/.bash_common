@@ -12,8 +12,6 @@ export QT_IM_MODULE=ibus
 alias sl="sl | lolcat"
 alias mpc="mpc --host=${HOME}/.config/mpd/socket"
 
-source /usr/share/nvm/init-nvm.sh
-
 export PAGER=nvimpager
 export MANPAGER="nvim +Man!"
 export MANWIDTH=999
@@ -35,3 +33,10 @@ export PATH="${HOME}/.ghcup/bin:${PATH}"
 export PATH="$PATH:${HOME}/.cargo/bin"
 
 export NEOVIDE_MULTIGRID=""
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
