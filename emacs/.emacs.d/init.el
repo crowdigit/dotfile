@@ -54,7 +54,7 @@
  '(package-selected-packages
    '(cider clojure-mode company embark-theme exec-path-from-shell
 	   flycheck go-mode kkp lsp-mode lsp-treemacs lsp-ui paredit
-	   yasnippet)))
+	   projectile whitespace-cleanup-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -78,6 +78,16 @@
 
 ;; Backup directory
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+;; Autosave directory
+(setq auto-save-file-name-transforms
+      `((".*" "~/.emacs.d/auto-save/" t)))
 
 ;; Exclude init.el from flycheck target
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+
+;; Projectile
+(projectile-mode +1)
+;; Recommended keymap prefix on macOS
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;; Whitespace
+;; (global-whitespace-mode) -- TODO
