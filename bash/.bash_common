@@ -28,15 +28,16 @@ alias kclip="kitty +kitten clipboard"
 alias ssh="kitty +kitten ssh"
 
 export PATH="${PATH}:${HOME}/script"
-export PATH="${HOME}/.ghcup/bin:${PATH}"
-
-export PATH="$PATH:${HOME}/.cargo/bin"
-
-export NEOVIDE_MULTIGRID=""
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
 [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+
+if [ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]; then
+  export PATH="/Applications/Emacs.app/Contents/MacOS/bin:$PATH"
+  alias emacs="emacs -nw" # Always launch "emacs" in terminal mode.
+fi
