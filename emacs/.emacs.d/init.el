@@ -75,3 +75,9 @@
   (global-kkp-mode 1))
 
 (load-theme 'embark)
+
+;; Backup directory
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+
+;; Exclude init.el from flycheck target
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
