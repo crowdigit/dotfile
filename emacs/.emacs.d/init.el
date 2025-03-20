@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (require 'package)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -10,27 +12,37 @@
 ;; Checker Backend
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; Go - lsp-mode
-;; Set up before-save hooks to format buffer and add/delete imports.
+;; lsp-mode
+
+;;; Clojure
+(add-hook 'clojure-mode-hook #'lsp-deferred)
+(add-hook 'clojurescript-mode-hook #'lsp-deferred)
+(add-hook 'clojurec-mode-hook #'lsp-deferred)
+
+;;; Typescript
+;;;; https://emacs.stackexchange.com/a/12406
+(add-hook 'typescript-ts-mode-hook #'lsp-deferred)
+(add-hook 'typescript-ts-mode-hook #'yas-minor-mode)
+;;;; Associate `.ts' files with major mode `typescript-mode'
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
+
+;;; Go
+;;;; Set up before-save hooks to format buffer and add/delete imports.
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-;; Start LSP Mode and YASnippet mode
+;;;; Start LSP Mode and YASnippet mode
 (add-hook 'go-mode-hook #'lsp-deferred)
 (add-hook 'go-mode-hook #'yas-minor-mode)
-
-;; Clojure - lsp-mode
-(add-hook 'clojure-mode-hook 'lsp)
-(add-hook 'clojurescript-mode-hook 'lsp)
-(add-hook 'clojurec-mode-hook 'lsp)
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil
       company-minimum-prefix-length 1)
 
+;; Paredit
 (autoload 'enable-paredit-mode "paredit"
   "Turn on pseudo-structural editing of Lisp code."
   t)
@@ -42,7 +54,6 @@
 (add-hook 'clojurescript-mode-hook    'enable-paredit-mode)
 (add-hook 'clojurec-mode-hook         'enable-paredit-mode)
 
-;;; -*- lexical-binding: t -*-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -53,8 +64,10 @@
      default))
  '(package-selected-packages
    '(cider clojure-mode company embark-theme exec-path-from-shell
-	   flycheck go-mode kkp lsp-mode lsp-treemacs lsp-ui paredit
-	   projectile whitespace-cleanup-mode yasnippet)))
+	   flycheck go-mode kkp lsp-mode lsp-treemacs lsp-ui magit
+	   orderless paredit projectile tree-sitter tree-sitter-langs
+	   vertico whitespace-cleanup-mode yasnippet))
+ '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -91,3 +104,44 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 ;; Whitespace
 ;; (global-whitespace-mode) -- TODO
+
+;; Enable Vertico.
+(use-package vertico
+  :custom
+  (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+;; Show search occurances
+(setq isearch-lazy-count t)
