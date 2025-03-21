@@ -74,12 +74,6 @@
 	  projectile tree-sitter tree-sitter-langs vertico wgrep
 	  whitespace-cleanup-mode yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;; Show line number
 (global-display-line-numbers-mode)
@@ -108,8 +102,6 @@
 (projectile-mode +1)
 ;; Recommended keymap prefix on macOS
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; Whitespace
-;; (global-whitespace-mode) -- TODO
 
 ;; Enable Vertico.
 (use-package vertico
@@ -179,6 +171,12 @@
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
             :branch "main"))
-(add-hook 'prog-mode-hook 'copilot-mode)
+;; (add-hook 'prog-mode-hook 'copilot-mode)
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  
+(electric-pair-mode)
+
+;; Print whitespace characters, needs customize
+;; (global-whitespace-mode)
+
