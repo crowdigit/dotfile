@@ -68,8 +68,8 @@
    '(affe cider clojure-mode company consult embark embark-consult
 	  embark-theme exec-path-from-shell flycheck go-mode kkp
 	  lsp-mode lsp-treemacs lsp-ui magit orderless paredit
-	  prescient projectile tree-sitter tree-sitter-langs vertico
-	  vertico-prescient wgrep whitespace-cleanup-mode yasnippet))
+	  projectile tree-sitter tree-sitter-langs vertico wgrep
+	  whitespace-cleanup-mode yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -152,15 +152,6 @@
   (minibuffer-prompt-properties
    '(read-only t cursor-intangible t face minibuffer-prompt)))
 
-;; Sort Vertico
-;; After installing the package
-(vertico-prescient-mode 1)
-
-;; Configure `prescient.el' filtering to your liking.
-(setq prescient-filter-method '(fuzzy)
-      prescient-sort-full-matches-first t ; Works well with `initialism'.
-      prescient-sort-length-enable t)
-
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
@@ -179,18 +170,4 @@
 
 ;; Highlight line
 (global-hl-line-mode)
-
-(use-package affe
-  :ensure t
-  :bind
-  (("C-c f" . affe-find)
-   ("C-c g" . affe-grep))
-  :config
-  ;; Manual preview key for `affe-grep'
-  (consult-customize affe-grep :preview-key "M-."))
-
-(defun affe-orderless-regexp-compiler (input _type _ignorecase)
-  (setq input (cdr (orderless-compile input)))
-  (cons input (apply-partially #'orderless--highlight input t)))
-(setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 
