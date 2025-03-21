@@ -14,6 +14,8 @@
 
 ;; lsp-mode
 
+(setq lsp-signature-render-documentation nil)
+
 ;;; Clojure
 (add-hook 'clojure-mode-hook #'lsp-deferred)
 (add-hook 'clojurescript-mode-hook #'lsp-deferred)
@@ -63,10 +65,11 @@
    '("390080494f00e19e9c1f0b3bb8343f6104cad6c5bb8ffad953b6e849793424d7"
      default))
  '(package-selected-packages
-   '(cider clojure-mode company embark-theme exec-path-from-shell
-	   flycheck go-mode kkp lsp-mode lsp-treemacs lsp-ui magit
-	   orderless paredit projectile tree-sitter tree-sitter-langs
-	   vertico whitespace-cleanup-mode yasnippet))
+   '(affe cider clojure-mode company consult embark embark-consult
+	  embark-theme exec-path-from-shell flycheck go-mode kkp
+	  lsp-mode lsp-treemacs lsp-ui magit orderless paredit
+	  projectile tree-sitter tree-sitter-langs vertico wgrep
+	  whitespace-cleanup-mode yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -115,6 +118,22 @@
   :init
   (vertico-mode))
 
+(use-package consult
+  :ensure t
+  :bind
+  (("C-c r" . consult-ripgrep)))
+
+(use-package embark
+  :ensure t
+  :bind
+  (("C-c a" . embark-act)))
+
+(use-package embark-consult
+  :after (embark consult))
+
+(use-package wgrep
+  :ensure t)
+
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
   :init
@@ -143,5 +162,22 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+;; Flex orderless power
+(setq orderless-matching-styles '(orderless-flex))
+
 ;; Show search occurances
 (setq isearch-lazy-count t)
+
+;; Highlight line
+(global-hl-line-mode)
+
+(use-package affe
+  :config
+  ;; Manual preview key for `affe-grep'
+  (consult-customize affe-grep :preview-key "M-."))
+
+(defun affe-orderless-regexp-compiler (input _type _ignorecase)
+  (setq input (cdr (orderless-compile input)))
+  (cons input (apply-partially #'orderless--highlight input t)))
+(setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+
