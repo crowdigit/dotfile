@@ -44,6 +44,9 @@
       treemacs-space-between-root-nodes nil
       company-minimum-prefix-length 1)
 
+(use-package paredit
+  :bind ("C-c )" . paredit-mode))
+
 ;; Paredit
 (autoload 'enable-paredit-mode "paredit"
   "Turn on pseudo-structural editing of Lisp code."
