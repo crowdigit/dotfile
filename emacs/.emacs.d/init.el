@@ -174,9 +174,22 @@
 ;; (add-hook 'prog-mode-hook 'copilot-mode)
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-  
+
 (electric-pair-mode)
 
-;; Print whitespace characters, needs customize
-;; (global-whitespace-mode)
-
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(whitespace-empty ((t (:extend t :background "gray30" :foreground "black"))))
+ '(whitespace-indentation ((t (:foreground "gray30"))))
+ '(whitespace-line ((t nil)))
+ '(whitespace-missing-newline-at-eof ((t (:background "gray30" :foreground "black"))))
+ '(whitespace-newline ((t (:foreground "dimgray" :weight normal))))
+ '(whitespace-space ((t (:foreground "gray30"))))
+ '(whitespace-space-after-tab ((t (:background "gray30" :foreground "black"))))
+ '(whitespace-space-before-tab ((t (:background "gray30" :foreground "black"))))
+ '(whitespace-tab ((t (:background "gray20" :foreground "white"))))
+ '(whitespace-trailing ((t (:background "gray30" :foreground "black" :weight bold)))))
+(global-whitespace-mode)
