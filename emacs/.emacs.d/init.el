@@ -118,10 +118,10 @@
   :init
   (vertico-mode))
 
-;; (use-package consult
-;;   :ensure t
-;;   :bind
-;;   (("C-c r" . consult-ripgrep)))
+(use-package consult
+  :ensure t
+  :bind
+  (("C-c r" . consult-ripgrep)))
 
 (use-package embark
   :ensure t
