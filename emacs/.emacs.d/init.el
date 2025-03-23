@@ -10,21 +10,19 @@
 (setq company-minimum-prefix-length 1)
 
 ;; Checker Backend
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; lsp-mode
-
-(setq lsp-signature-render-documentation nil)
+; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;; Clojure
-(add-hook 'clojure-mode-hook #'lsp-deferred)
-(add-hook 'clojurescript-mode-hook #'lsp-deferred)
-(add-hook 'clojurec-mode-hook #'lsp-deferred)
+(add-hook 'clojure-mode-hook #'eglot-ensure)
+(add-hook 'clojurescript-mode-hook #'eglot-ensure)
+(add-hook 'clojurec-mode-hook #'eglot-ensure)
 
 ;;; Typescript
 ;;;; https://emacs.stackexchange.com/a/12406
-(add-hook 'typescript-ts-mode-hook #'lsp-deferred)
 (add-hook 'typescript-ts-mode-hook #'yas-minor-mode)
+(add-hook 'typescript-ts-mode-hook #'yas-minor-mode)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
 ;;;; Associate `.ts' files with major mode `typescript-mode'
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
@@ -34,9 +32,9 @@
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 ;;;; Start LSP Mode and YASnippet mode
-(add-hook 'go-mode-hook #'lsp-deferred)
+(add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'go-mode-hook #'yas-minor-mode)
 
 (setq gc-cons-threshold (* 100 1024 1024)
@@ -69,10 +67,11 @@
      default))
  '(package-selected-packages
    '(affe cider clojure-mode company consult embark embark-consult
-	  embark-theme exec-path-from-shell flycheck go-mode kkp
-	  lsp-mode lsp-treemacs lsp-ui magit orderless paredit
-	  projectile tree-sitter tree-sitter-langs vertico wgrep
-	  whitespace-cleanup-mode yasnippet))
+	  embark-theme exec-path-from-shell flycheck flycheck-eglot
+	  flycheck-posframe go-mode kkp lsp-mode lsp-treemacs lsp-ui
+	  magit orderless paredit projectile tree-sitter
+	  tree-sitter-langs vertico wgrep whitespace-cleanup-mode
+	  yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
 ;; Show line number
@@ -192,4 +191,12 @@
  '(whitespace-space-before-tab ((t (:background "gray30" :foreground "black"))))
  '(whitespace-tab ((t (:background "gray20" :foreground "white"))))
  '(whitespace-trailing ((t (:background "gray30" :foreground "black" :weight bold)))))
-(global-whitespace-mode)
+; (global-whitespace-mode)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(with-eval-after-load 'prog-mode
+  (with-eval-after-load 'flymake
+    (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
+    (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error)))
+(add-hook 'after-init-hook 'global-company-mode)
