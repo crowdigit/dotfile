@@ -69,9 +69,9 @@
    '(affe cider clojure-mode company consult embark embark-consult
 	  embark-theme exec-path-from-shell flycheck flycheck-eglot
 	  flycheck-posframe go-mode kkp lsp-mode lsp-treemacs lsp-ui
-	  magit orderless paredit projectile tree-sitter
-	  tree-sitter-langs vertico wgrep whitespace-cleanup-mode
-	  yasnippet))
+	  magit orderless paredit projectile slime slime-company
+	  tree-sitter tree-sitter-langs vertico wgrep
+	  whitespace-cleanup-mode yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
 ;; Show line number
@@ -200,3 +200,14 @@
     (define-key prog-mode-map (kbd "M-n") 'flymake-goto-next-error)
     (define-key prog-mode-map (kbd "M-p") 'flymake-goto-prev-error)))
 (add-hook 'after-init-hook 'global-company-mode)
+
+(tool-bar-mode -1)
+
+;; Common Lisp FTW
+(setq inferior-lisp-program "sbcl")
+
+(use-package slime-company
+  :after (slime company)
+  :config (setq slime-company-completion 'fuzzy
+                slime-company-after-completion 'slime-company-just-one-space))
+(slime-setup '(slime-fancy slime-company))
