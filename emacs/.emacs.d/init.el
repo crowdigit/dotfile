@@ -68,9 +68,9 @@
  '(package-selected-packages
    '(affe cider clojure-mode company consult embark embark-consult
 	  embark-theme exec-path-from-shell flycheck flycheck-eglot
-	  flycheck-posframe go-mode kkp lsp-mode lsp-treemacs lsp-ui
-	  magit orderless paredit projectile slime slime-company
-	  tree-sitter tree-sitter-langs vertico wgrep
+	  flycheck-posframe go-mode indent-bars kkp lsp-mode
+	  lsp-treemacs lsp-ui magit orderless paredit projectile slime
+	  slime-company tree-sitter tree-sitter-langs vertico wgrep
 	  whitespace-cleanup-mode yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
@@ -211,3 +211,18 @@
   :config (setq slime-company-completion 'fuzzy
                 slime-company-after-completion 'slime-company-just-one-space))
 (slime-setup '(slime-fancy slime-company))
+
+(use-package indent-bars
+  :custom
+  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  ;; Add other languages as needed
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+	  if_statement with_statement while_statement)))
+  ;; Note: wrap may not be needed if no-descend-list is enough
+  ;;(indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+  ;;				      list list_comprehension
+  ;;				      dictionary dictionary_comprehension
+  ;;				      parenthesized_expression subscript)))
+  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
