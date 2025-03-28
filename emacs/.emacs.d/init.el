@@ -20,9 +20,8 @@
 ;;; Typescript
 ;;;; https://emacs.stackexchange.com/a/12406
 (add-hook 'typescript-ts-mode-hook #'yas-minor-mode)
-(add-hook 'typescript-ts-mode-hook #'yas-minor-mode)
 (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
-(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'flymake-eslint-enable)
 ;;;; Associate `.ts' files with major mode `typescript-mode'
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
@@ -65,13 +64,17 @@
  '(custom-safe-themes
    '("390080494f00e19e9c1f0b3bb8343f6104cad6c5bb8ffad953b6e849793424d7"
      default))
+ '(flymake-eslint-executable-args
+   '("--config"
+     "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs"))
  '(package-selected-packages
    '(affe cider clojure-mode company consult embark embark-consult
 	  embark-theme exec-path-from-shell flycheck flycheck-eglot
-	  flycheck-posframe go-mode indent-bars kkp lsp-mode
-	  lsp-treemacs lsp-ui magit orderless paredit projectile slime
-	  slime-company tree-sitter tree-sitter-langs vertico wgrep
-	  whitespace-cleanup-mode yasnippet))
+	  flycheck-posframe flymake-eslint git-gutter go-mode
+	  indent-bars kkp lsp-mode lsp-treemacs lsp-ui magit orderless
+	  paredit projectile slime slime-company tree-sitter
+	  tree-sitter-langs vertico wgrep whitespace-cleanup-mode
+	  xclip yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
 ;; Show line number
@@ -115,7 +118,8 @@
 (use-package consult
   :ensure t
   :bind
-  (("C-c r" . consult-ripgrep)))
+  (("C-c r" . consult-ripgrep)
+   ("C-c f" . consult-fd)))
 
 (use-package embark
   :ensure t
@@ -226,3 +230,28 @@
   ;;				      dictionary dictionary_comprehension
   ;;				      parenthesized_expression subscript)))
   :hook ((python-base-mode yaml-mode) . indent-bars-mode))
+
+(use-package flymake-eslint
+  :ensure t
+  :config
+  ;; If Emacs is compiled with JSON support
+  (setq flymake-eslint-prefer-json-diagnostics t))
+
+(defun eslint-fix-file ()
+  (interactive)
+  (message "eslinting...")
+  (call-process-shell-command (concat
+			       "npx --prefix ~/.config/nvim/etc/typescript "
+			       "eslint --config ~/.config/nvim/etc/typescript/eslint.config.mjs --fix "
+			       (buffer-file-name))
+			      nil "*Shell Command Output*" t)
+  (revert-buffer t t))
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode t)
+  (global-set-key (kbd "C-x C-g =") 'git-gutter:popup-hunk)
+  (global-set-key (kbd "C-x C-g n") 'git-gutter:next-hunk)
+  (global-set-key (kbd "C-x C-g p") 'git-gutter:previous-hunk)
+  (global-set-key (kbd "C-x C-g r") 'git-gutter:revert-hunk)
+  (global-set-key (kbd "C-x C-g s") 'git-gutter:stage-hunk))
