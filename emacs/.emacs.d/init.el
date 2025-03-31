@@ -26,6 +26,10 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
 
+;;; Bash
+(add-hook 'bash-ts-mode-hook #'eglot-ensure)
+(add-to-list 'major-mode-remap-alist '(sh-mode . bash-ts-mode))
+
 ;;; Go
 ;;;; Set up before-save hooks to format buffer and add/delete imports.
 (defun lsp-go-install-save-hooks ()
@@ -255,3 +259,6 @@
   (global-set-key (kbd "C-x C-g p") 'git-gutter:previous-hunk)
   (global-set-key (kbd "C-x C-g r") 'git-gutter:revert-hunk)
   (global-set-key (kbd "C-x C-g s") 'git-gutter:stage-hunk))
+
+(use-package eglot
+  :ensure t)
