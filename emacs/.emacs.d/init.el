@@ -262,3 +262,4 @@
 
 (use-package eglot
   :ensure t)
+(setq eglot-sync-connect 0)
