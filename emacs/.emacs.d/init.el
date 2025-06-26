@@ -46,6 +46,7 @@
       company-minimum-prefix-length 1)
 
 (use-package paredit
+  :defer t
   :bind ("C-c )" . paredit-mode))
 
 ;; Paredit
@@ -65,20 +66,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(consult-async-refresh-delay 0.01)
  '(custom-safe-themes
    '("390080494f00e19e9c1f0b3bb8343f6104cad6c5bb8ffad953b6e849793424d7"
      default))
+ '(dtrt-indent-global-mode t)
  '(flymake-eslint-executable-args
    '("--config"
      "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs"))
+ '(global-git-gutter-mode nil)
  '(package-selected-packages
-   '(affe cider clojure-mode company consult embark embark-consult
-	  embark-theme exec-path-from-shell flycheck flycheck-eglot
-	  flycheck-posframe flymake-eslint git-gutter go-mode
-	  indent-bars kkp lsp-mode lsp-treemacs lsp-ui magit orderless
-	  paredit projectile slime slime-company tree-sitter
-	  tree-sitter-langs vertico wgrep whitespace-cleanup-mode
-	  xclip yasnippet))
+   '(affe cider clojure-mode company consult dtrt-indent embark
+          embark-consult embark-theme exec-path-from-shell flycheck
+          flycheck-eglot flycheck-posframe flymake-eslint git-gutter
+          git-modes go-mode indent-bars kkp lsp-mode lsp-treemacs
+          lsp-ui magit orderless paredit projectile slime
+          slime-company tree-sitter tree-sitter-langs vertico wgrep
+          whitespace-cleanup-mode xclip yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
 ;; Show line number
@@ -126,6 +130,7 @@
    ("C-c f" . consult-fd)))
 
 (use-package embark
+  :defer t
   :ensure t
   :bind
   (("C-c a" . embark-act)))
@@ -134,10 +139,12 @@
   :after (embark consult))
 
 (use-package wgrep
+  :defer t
   :ensure t)
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
+  :defer t
   :init
   (savehist-mode))
 
@@ -173,15 +180,6 @@
 ;; Highlight line
 (global-hl-line-mode)
 
-;; Copilot
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main"))
-;; (add-hook 'prog-mode-hook 'copilot-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-
 (electric-pair-mode)
 
 (custom-set-faces
@@ -215,6 +213,7 @@
 (setq inferior-lisp-program "sbcl")
 
 (use-package slime-company
+  :defer t
   :after (slime company)
   :config (setq slime-company-completion 'fuzzy
                 slime-company-after-completion 'slime-company-just-one-space))
@@ -236,6 +235,7 @@
   :hook ((python-base-mode yaml-mode) . indent-bars-mode))
 
 (use-package flymake-eslint
+  :defer t
   :ensure t
   :config
   ;; If Emacs is compiled with JSON support
@@ -252,6 +252,7 @@
   (revert-buffer t t))
 
 (use-package git-gutter
+  :defer t
   :config
   (global-git-gutter-mode t)
   (global-set-key (kbd "C-x C-g =") 'git-gutter:popup-hunk)
@@ -261,5 +262,6 @@
   (global-set-key (kbd "C-x C-g s") 'git-gutter:stage-hunk))
 
 (use-package eglot
+  :defer t
   :ensure t)
 (setq eglot-sync-connect 0)
