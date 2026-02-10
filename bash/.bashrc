@@ -1,5 +1,5 @@
 # this file defines environment variables loaded from interactive non-login shell
-. ./.bash_common
+. ${HOME}/.bash_common
 
 
 # BEGIN_KITTY_SHELL_INTEGRATION
