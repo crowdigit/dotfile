@@ -76,13 +76,13 @@
      "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs"))
  '(global-git-gutter-mode nil)
  '(package-selected-packages
-   '(affe cider clojure-mode company consult dtrt-indent embark
-          embark-consult embark-theme exec-path-from-shell flycheck
-          flycheck-eglot flycheck-posframe flymake-eslint git-gutter
-          git-modes go-mode indent-bars kkp lsp-mode lsp-treemacs
-          lsp-ui magit orderless paredit projectile slime
-          slime-company tree-sitter tree-sitter-langs vertico wgrep
-          whitespace-cleanup-mode xclip yasnippet))
+   '(affe cider clojure-mode company consult dtrt-indent embark embark-consult
+	  embark-theme exec-path-from-shell flycheck flycheck-eglot
+	  flycheck-posframe flymake-eslint git-gutter git-modes go-mode
+	  indent-bars kkp lsp-mode lsp-treemacs lsp-ui magit orderless
+	  paredit projectile slime slime-company tree-sitter
+	  tree-sitter-langs vertico wgrep whitespace-cleanup-mode
+	  xclip yasnippet))
  '(warning-suppress-types '((use-package) (use-package))))
 
 ;; Show line number
