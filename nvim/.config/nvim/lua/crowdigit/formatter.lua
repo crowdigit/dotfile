@@ -16,14 +16,14 @@ require("formatter").setup {
                 exe = "eslint_d",
                 args = {
                     "--config",
-                    "/home/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
                     "--stdin",
                     "--stdin-filename",
                     util.escape_path(util.get_current_buffer_file_path()),
                     "--fix-to-stdout",
                 },
                 stdin = true,
-                try_node_modules = true,
+                try_node_modules = false,
             }
         end,
     },
@@ -33,22 +33,42 @@ require("formatter").setup {
                 exe = "eslint_d",
                 args = {
                     "--config",
-                    "/home/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
+                    "/Users/asdf/.config/nvim/etc/typescript/eslint.config.mjs",
                     "--stdin",
                     "--stdin-filename",
                     util.escape_path(util.get_current_buffer_file_path()),
                     "--fix-to-stdout",
                 },
                 stdin = true,
-                try_node_modules = true,
+                try_node_modules = false,
             }
         end,
     },
     json = {
-        require("formatter.defaults").eslint_d,
+        require("formatter.defaults").eslint,
     },
     go = {
-        require("formatter.filetypes.go").gofumpt,
+        function ()
+            return {
+                exe = "gofmt",
+                stdin = true,
+                ignore_exitcode = true,
+            }
+        end,
+    },
+    python = {
+        require("formatter.filetypes.python").black,
+    },
+    clojure = {
+        function()
+            return {
+                exe = "cljfmt",
+                args = {
+                    "fix",
+                    util.escape_path(util.get_current_buffer_file_path()),
+                },
+            }
+        end,
     },
     -- Use the special "*" filetype for defining formatter configurations on
     -- any filetype
@@ -60,11 +80,12 @@ require("formatter").setup {
   }
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-    callback = function(opts)
-        if vim.bo.filetype == "go" then
-            vim.cmd('GoImports')
-        end
-        vim.cmd('Format')
-    end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+--     callback = function(opts)
+--         if vim.bo.filetype == "go" then
+--             vim.cmd('GoImports')
+--         else
+--             vim.cmd('Format')
+--         end
+--     end,
+-- })
